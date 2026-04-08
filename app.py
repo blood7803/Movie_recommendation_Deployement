@@ -37,10 +37,12 @@ import os
 # ---------------- DOWNLOAD FILES ---------------- #
 
 def download_file(url, filename):
-    if not os.path.exists(filename):  # download only once
-        response = requests.get(url)
-        with open(filename, 'wb') as f:
-            f.write(response.content)
+    if not os.path.exists(filename):
+        response = requests.get(url, stream=True)
+        with open(filename, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
 
 # Google Drive direct links
 movie_url = "https://drive.google.com/uc?id=1aLBRrw6IrniFXVZ11UOx92DYcbuqiIql"
