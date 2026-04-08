@@ -31,24 +31,18 @@
 import streamlit as st
 import pickle
 import pandas as pd
-import requests
+import gdown
 import os
 
 # ---------------- DOWNLOAD FILES ---------------- #
 
 def download_file(url, filename):
     if not os.path.exists(filename):
-        response = requests.get(url, stream=True)
-        with open(filename, "wb") as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                if chunk:
-                    f.write(chunk)
+        gdown.download(url, filename, quiet=False)
 
-# Google Drive direct links
 movie_url = "https://drive.google.com/uc?id=1aLBRrw6IrniFXVZ11UOx92DYcbuqiIql"
 similarity_url = "https://drive.google.com/uc?id=1XNYtGIDlIsodfOk0CgV40T-KrDDygodA"
 
-# Download files
 download_file(movie_url, "movie.pkl")
 download_file(similarity_url, "similarity.pkl")
 
